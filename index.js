@@ -19,7 +19,10 @@ app.get("/", async () => {
 });
 
 app.post("/e", async (req, server) => {
-  const ip = req.headers["CF-Connecting-IP"] || req.headers["X-Forwarded-For"] || server.requestIP(req);
+  const ip =
+    req.headers["CF-Connecting-IP"] ||
+    req.headers["X-Forwarded-For"] ||
+    server.requestIP(req);
   const { m, h } = JSON.parse(await req.text());
 
   const visitorCountry = (await country.getIP(ip)) || "Unknown";
