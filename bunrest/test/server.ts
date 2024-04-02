@@ -64,8 +64,8 @@
 // });
 import server from "../index";
 
-const app = server()
-const router = app.router()
+const app = server();
+const router = app.router();
 
 const URL_PORT = 5555;
 
@@ -73,18 +73,18 @@ app.get("/user", (req, res) => {
   res.status(200).json(req.body);
 });
 
-router.get('/', async (req, res) => {
+router.get("/", async (req, res) => {
   //const data = await (await fetch('https://www.fishwatch.gov/api/species')).json()
-  res.status(200).json({ message: 'sdsdsd'})
-})
+  res.status(200).json({ message: "sdsdsd" });
+});
 
-router.options('/test', async (req, res) => {
+router.options("/test", async (req, res) => {
   //const data = await (await fetch('https://www.fishwatch.gov/api/species')).json()
-  res.status(200).json({ message: 'hihi'})
-})
+  res.status(200).json({ message: "hihi" });
+});
 
-app.use('/', router);
+app.use("/", router);
 
 app.listen(URL_PORT, () => {
-  console.log('App is listening on port 3000')
-})
+  console.log("App is listening on port 3000");
+});

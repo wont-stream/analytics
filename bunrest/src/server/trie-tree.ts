@@ -24,8 +24,8 @@ export class TrieTree<k extends string, v extends Route> {
     // const paths = this.validate(path);
     // // remove the first empty string
     // paths.shift();
-    if (path === '*') {
-      path = '/';
+    if (path === "*") {
+      path = "/";
     }
     const paths = path.split("/");
     let node: Node<string, v> = this.root;
@@ -63,7 +63,7 @@ export class TrieTree<k extends string, v extends Route> {
       return null;
     }
 
-    let next: Node<k, v> =  null
+    let next: Node<k, v> = null;
     for (let i = 0; i < target.length; ++i) {
       const e = target[i];
       if (e.getPath().startsWith(":")) {
@@ -120,7 +120,7 @@ class Node<k, v> {
   }
 
   getMiddlewares(): Handler[] {
-    return this.handlers.middlewareFuncs
+    return this.handlers.middlewareFuncs;
   }
 
   getPath(): string {

@@ -1,11 +1,10 @@
 // /**
 //  * Purpose of this file is to provide a reusable base64 encoder/decoder, that will encode user paths so that they do not conflict with the internal delimiter used, as seen with the '~' character. Before it was '-', and no routes with '-' were allowed. This is allows for more flexibility in the routes.
-//  * 
-//  * Decoding of base64 is broken, so I will use the mozilla implementation for now. 
+//  *
+//  * Decoding of base64 is broken, so I will use the mozilla implementation for now.
 // */
 
 // // Language: typescript
-
 
 // // Array of bytes to Base64 string decoding
 // function b64ToUint6(nChr) {
@@ -217,9 +216,6 @@
 
 //     return aBytes;
 // }
-
-
-
 
 // export function encodeBase64(str: string):string {
 //     const UTF8Array = strToUTF8Arr(str);

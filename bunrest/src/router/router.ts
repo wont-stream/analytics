@@ -23,7 +23,11 @@ export class Router implements RequestMethod {
   private localRequestMap: RouteRequestMapper = {};
   private localMiddlewares: Middleware[] = [];
 
-  constructor(requestMap: RequestMapper, middlewares: Middleware[], requestMapFunc: RequestMapFunc) {
+  constructor(
+    requestMap: RequestMapper,
+    middlewares: Middleware[],
+    requestMapFunc: RequestMapFunc
+  ) {
     this.requestMap = requestMap;
     this.requestMapFunc = requestMapFunc;
     this.middlewares = middlewares;
@@ -66,14 +70,19 @@ export class Router implements RequestMethod {
       const method = k;
       const reqArr: Array<RequestTuple> = this.localRequestMap[k];
       reqArr.forEach((v, _) => {
-        this.requestMapFunc.apply(this, [method, path.join(globalPath, v.path), v.route.handler, v.route.middlewareFuncs]);
+        this.requestMapFunc.apply(this, [
+          method,
+          path.join(globalPath, v.path),
+          v.route.handler,
+          v.route.middlewareFuncs,
+        ]);
       });
     }
   }
 
   private delegate(localPath: string, method: string, handlers: Handler[]) {
-    if (localPath === '/') {
-      localPath = ''
+    if (localPath === "/") {
+      localPath = "";
     }
 
     if (handlers.length < 1) return;
@@ -84,7 +93,12 @@ export class Router implements RequestMethod {
     this.submitToMap(method.toLowerCase(), localPath, handler, middlewares);
   }
 
-  private submitToMap(method: string, path: string, handler: Handler, middlewares: Middleware) {
+  private submitToMap(
+    method: string,
+    path: string,
+    handler: Handler,
+    middlewares: Middleware
+  ) {
     let targetMap: RequestTuple[] = this.localRequestMap[method];
     if (!targetMap) {
       this.localRequestMap[method] = [];
@@ -94,7 +108,7 @@ export class Router implements RequestMethod {
     const route = {
       handler: handler,
       middlewareFuncs: middlewares,
-    }
+    };
 
     targetMap.push({
       path,

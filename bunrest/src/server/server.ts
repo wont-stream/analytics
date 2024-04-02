@@ -39,7 +39,7 @@ class BunServer implements RequestMethod {
   private readonly requestMap: RequestMapper = {};
   private readonly middlewares: Middleware[] = [];
   private readonly errorHandlers: Handler[] = [];
-  private webSocketHandler: WebSocketHandler | undefined
+  private webSocketHandler: WebSocketHandler | undefined;
 
   get(path: string, ...handlers: Handler[]) {
     this.delegate(path, "GET", handlers);
@@ -78,7 +78,7 @@ class BunServer implements RequestMethod {
       open: extra?.open,
       close: extra?.close,
       drain: extra?.drain,
-    }
+    };
   }
 
   /**
@@ -145,13 +145,13 @@ class BunServer implements RequestMethod {
       lowMemoryMode: options?.lowMemoryMode,
       development: process.env.SERVER_ENV !== "production",
       async fetch(req1: Request, server: any) {
-        server.upgrade(req1)
+        server.upgrade(req1);
 
         const req: BunRequest = await that.bunRequest(req1);
         const res = that.responseProxy();
 
-        if (req.path.endsWith('/')) {
-          req.path = req.path.slice(0, req.path.length)
+        if (req.path.endsWith("/")) {
+          req.path = req.path.slice(0, req.path.length);
         }
 
         const tree: TrieTree<string, Handler> =
@@ -166,8 +166,8 @@ class BunServer implements RequestMethod {
         // fix (issue 4: unhandle route did not throw an error)
         if (!leaf.node) {
           console.error(`Cannot ${req.method} ${req.path}`);
-          res.status(404).send(`${req.method} ${req.path} with a 404`)
-          return res.getResponse()
+          res.status(404).send(`${req.method} ${req.path} with a 404`);
+          return res.getResponse();
         }
 
         // append req route params
@@ -245,11 +245,11 @@ class BunServer implements RequestMethod {
     });
 
     // receive request body as string
-    const bodyStr = await req.text()
+    const bodyStr = await req.text();
     try {
-      newReq.body = JSON.parse(bodyStr)
+      newReq.body = JSON.parse(bodyStr);
     } catch (err) {
-      newReq.body = bodyStr
+      newReq.body = bodyStr;
     }
     req.arrayBuffer;
     newReq.blob = req.blob();
@@ -279,11 +279,15 @@ class BunServer implements RequestMethod {
     });
   }
 
-  private delegate(path: string, method: RequestMethodType, handlers: Handler[]) {
+  private delegate(
+    path: string,
+    method: RequestMethodType,
+    handlers: Handler[]
+  ) {
     let key = path;
 
-    if (key === '/') {
-      key = ''
+    if (key === "/") {
+      key = "";
     }
 
     if (handlers.length < 1) return;
@@ -294,7 +298,12 @@ class BunServer implements RequestMethod {
     this.submitToMap(method.toLowerCase(), path, handler, middlewares);
   }
 
-  private submitToMap(method: string, path: string, handler: Handler, middlewares: Middleware) {
+  private submitToMap(
+    method: string,
+    path: string,
+    handler: Handler,
+    middlewares: Middleware
+  ) {
     let targetTree: TrieTree<string, Handler> = this.requestMap[method];
     if (!targetTree) {
       this.requestMap[method] = new TrieTree();
@@ -303,7 +312,7 @@ class BunServer implements RequestMethod {
     const route = {
       handler: handler,
       middlewareFuncs: middlewares,
-    }
+    };
     targetTree.insert(path, route);
   }
 }

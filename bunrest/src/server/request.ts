@@ -19,7 +19,14 @@ export type MiddlewareFunc = (
   next: (err?: Error) => {}
 ) => void;
 
-export type RequestMethodType = 'GET' | 'PUT' | 'POST' | 'DELETE' | 'PATCH' | 'OPTIONS' | 'HEAD';
+export type RequestMethodType =
+  | "GET"
+  | "PUT"
+  | "POST"
+  | "DELETE"
+  | "PATCH"
+  | "OPTIONS"
+  | "HEAD";
 
 export type RequestHandler = (path: string, ...handlers: Handler[]) => void;
 
@@ -97,4 +104,8 @@ export interface RouteRequestMapper {
   head?: Array<RequestTuple>;
 }
 
-export type RequestMapFunc = (method: string, path: string, handler: Handler) => void
+export type RequestMapFunc = (
+  method: string,
+  path: string,
+  handler: Handler
+) => void;
