@@ -72,6 +72,7 @@
       <div id="os"></div>
       <div id="client"></div>
       <div id="device"></div>
+      <div id="country"></div>
     </center>
     <script>
       const ws = new WebSocket(
@@ -80,8 +81,9 @@
         os = document.getElementById("os"),
         client = document.getElementById("client"),
         device = document.getElementById("device");
+      country = document.getElementById("country");
       function clearCharts() {
-        [os, client, device].forEach((e) => {
+        [os, client, device, country].forEach((e) => {
           e.innerHTML = "";
         });
       }
@@ -96,26 +98,32 @@
         );
       }
       ws.addEventListener("message", (e) => {
-        let { os: t, client: r, device: n } = JSON.parse(e.data);
+        let { os: o, client: r, device: d, country: c } = JSON.parse(e.data);
         clearCharts(),
           new Charty({
             title: "Operating Systems",
             chartType: "pie",
-            data: convertToObjectArray(t),
+            data: convertToObjectArray(o),
             selector: "#os",
           }),
           new Charty({
             title: "Clients",
             chartType: "pie",
-            data: convertToObjectArray(r),
+            data: convertToObjectArray(c),
             selector: "#client",
           }),
           new Charty({
             title: "Devices",
             chartType: "pie",
-            data: convertToObjectArray(n),
+            data: convertToObjectArray(d),
             selector: "#device",
           });
+        new Charty({
+          title: "Countries",
+          chartType: "pie",
+          data: convertToObjectArray(c),
+          selector: "#country",
+        });
       }),
         ws.addEventListener("open", (e) => {
           console.log("Open", e);
