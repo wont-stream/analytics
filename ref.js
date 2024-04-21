@@ -19,7 +19,7 @@ const saveDB = async () => {
 
   const file = Bun.file(path);
 
-  Bun.write(file, JSON.stringify(db));
+  Bun.write(file, db);
 
   console.log("Updated referer Datebase");
 };

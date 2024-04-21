@@ -105,7 +105,7 @@
           client: r,
           device: d,
           country: c,
-          ref: e,
+          ref: f,
         } = JSON.parse(e.data);
         clearCharts(),
           new Charty({
@@ -135,7 +135,7 @@
         new Charty({
           title: "Referers",
           chartType: "pie",
-          data: convertToObjectArray(e),
+          data: convertToObjectArray(f),
           selector: "#country",
         });
       }),
