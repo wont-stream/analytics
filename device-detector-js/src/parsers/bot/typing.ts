@@ -5,5 +5,5 @@ export interface BotResult {
   producer: {
     name: string;
     url: string;
-  }
+  };
 }

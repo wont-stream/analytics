@@ -9,7 +9,7 @@ export default class TelevisionParser {
     const result: GenericDeviceResult = {
       type: "",
       brand: "",
-      model: ""
+      model: "",
     };
 
     if (!this.isHbbTv(userAgent)) return result;
@@ -24,14 +24,18 @@ export default class TelevisionParser {
       result.brand = brand;
 
       if ("model" in television && television.model) {
-        result.model = buildModel(variableReplacement(television.model, match)).trim();
+        result.model = buildModel(
+          variableReplacement(television.model, match)
+        ).trim();
       } else if ("models" in television && television.models) {
         for (const model of television.models) {
           const modelMatch = userAgentParser(model.regex, userAgent);
 
           if (!modelMatch) continue;
 
-          result.model = buildModel(variableReplacement(model.model, modelMatch)).trim();
+          result.model = buildModel(
+            variableReplacement(model.model, modelMatch)
+          ).trim();
           break;
         }
       }
@@ -42,6 +46,6 @@ export default class TelevisionParser {
   };
 
   private isHbbTv = (userAgent: string) => {
-    return userAgentParser("HbbTV\/([1-9]{1}(?:\.[0-9]{1}){1,2})", userAgent);
+    return userAgentParser("HbbTV/([1-9]{1}(?:.[0-9]{1}){1,2})", userAgent);
   };
 }

@@ -1,5 +1,5 @@
 import mobiles from "../../fixtures/regexes/device/mobiles.json";
-import { DeviceType, GenericDeviceResult } from "../../typings/device"
+import { DeviceType, GenericDeviceResult } from "../../typings/device";
 import { variableReplacement } from "../../utils/variable-replacement";
 import { userAgentParser } from "../../utils/user-agent";
 import { buildModel } from "../../utils/model";
@@ -9,7 +9,7 @@ export default class MobileParser {
     const result: GenericDeviceResult = {
       type: "",
       brand: "",
-      model: ""
+      model: "",
     };
     let resultType = "";
 
@@ -18,18 +18,22 @@ export default class MobileParser {
 
       if (!match) continue;
 
-      resultType = "device" in mobile && mobile.device || "";
+      resultType = ("device" in mobile && mobile.device) || "";
       result.brand = brand;
 
       if ("model" in mobile && mobile.model) {
-        result.model = buildModel(variableReplacement(mobile.model, match)).trim();
+        result.model = buildModel(
+          variableReplacement(mobile.model, match)
+        ).trim();
       } else if ("models" in mobile && mobile.models) {
         for (const model of mobile.models) {
           const modelMatch = userAgentParser(model.regex, userAgent);
 
           if (!modelMatch) continue;
 
-          result.model = buildModel(variableReplacement(model.model, modelMatch)).trim();
+          result.model = buildModel(
+            variableReplacement(model.model, modelMatch)
+          ).trim();
 
           if ("device" in model && model.device) {
             resultType = model.device;

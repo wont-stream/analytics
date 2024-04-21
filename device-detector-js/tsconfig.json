@@ -10,16 +10,9 @@
     "outDir": "./dist",
     "resolveJsonModule": true,
     "moduleResolution": "node",
-    "lib": [
-      "dom",
-      "es2017"
-    ],
+    "lib": ["dom", "es2017"],
     "esModuleInterop": true
   },
-  "include": [
-    "src/**/*"
-  ],
-  "exclude": [
-    "src/tests"
-  ]
+  "include": ["src/**/*"],
+  "exclude": ["src/tests"]
 }

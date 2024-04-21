@@ -28,17 +28,17 @@ export const versionCompare = (v1: any, v2: any, operator?: any): any => {
   // If a non-numerical value can't be mapped to this table, it receives
   // -7 as its value.
   const vm = {
-    "dev": -6,
-    "alpha": -5,
-    "a": -5,
-    "beta": -4,
-    "b": -4,
-    "RC": -3,
-    "rc": -3,
+    dev: -6,
+    alpha: -5,
+    a: -5,
+    beta: -4,
+    b: -4,
+    RC: -3,
+    rc: -3,
     "#": -2,
-    "p": 1,
-    "pl": 1
-  }
+    p: 1,
+    pl: 1,
+  };
 
   // This function will be called to prepare each version argument.
   // It replaces every _, -, and + with a dot.
@@ -53,15 +53,15 @@ export const versionCompare = (v1: any, v2: any, operator?: any): any => {
     v = ("" + v).replace(/[_\-+]/g, ".");
     v = v.replace(/([^.\d]+)/g, ".$1.").replace(/\.{2,}/g, ".");
 
-    return (!v.length ? [-8] : v.split("."));
+    return !v.length ? [-8] : v.split(".");
   };
   // This converts a version component to a number.
   // Empty component becomes 0.
   // Non-numerical component becomes a negative number.
   // Numerical component becomes itself as an integer.
   const numVersion = (v: any) => {
-    return !v ? 0 : (isNaN(v) ? (vm as any)[v] || -7 : parseInt(v, 10));
-  }
+    return !v ? 0 : isNaN(v) ? (vm as any)[v] || -7 : parseInt(v, 10);
+  };
 
   v1 = prepVersion(v1);
   v2 = prepVersion(v2);
@@ -90,26 +90,26 @@ export const versionCompare = (v1: any, v2: any, operator?: any): any => {
   switch (operator) {
     case ">":
     case "gt":
-      return (compare > 0);
+      return compare > 0;
     case ">=":
     case "ge":
-      return (compare >= 0);
+      return compare >= 0;
     case "<=":
     case "le":
-      return (compare <= 0);
+      return compare <= 0;
     case "===":
     case "=":
     case "eq":
-      return (compare === 0);
+      return compare === 0;
     case "<>":
     case "!==":
     case "ne":
-      return (compare !== 0);
+      return compare !== 0;
     case "":
     case "<":
     case "lt":
-      return (compare < 0);
+      return compare < 0;
     default:
-      return null
+      return null;
   }
 };

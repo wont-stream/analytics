@@ -1,6 +1,9 @@
 import { trim } from "./trim";
 
-export const formatVersion = (version: string | undefined, versionTruncation: 0 | 1 | 2 | 3 | null): string => {
+export const formatVersion = (
+  version: string | undefined,
+  versionTruncation: 0 | 1 | 2 | 3 | null
+): string => {
   if (version === undefined) return "";
 
   const versionString = trim(version, ". ").replace(new RegExp("_", "g"), ".");
@@ -26,18 +29,24 @@ export const formatVersion = (version: string | undefined, versionTruncation: 0 
   return versionString;
 };
 
-export const parseBrowserEngineVersion = (userAgent: string, engine: string) => {
+export const parseBrowserEngineVersion = (
+  userAgent: string,
+  engine: string
+) => {
   if (!engine) return "";
 
   if (engine === "Gecko") {
-    const geckoVersionRegex = /[ ](?:rv[: ]([0-9\.]+)).*gecko\/[0-9]{8,10}/i
-    const match = userAgent.match(geckoVersionRegex)
+    const geckoVersionRegex = /[ ](?:rv[: ]([0-9\.]+)).*gecko\/[0-9]{8,10}/i;
+    const match = userAgent.match(geckoVersionRegex);
     if (match) {
       return match.pop();
     }
   }
 
-  const regex = new RegExp(`${engine}\\s*\\/?\\s*((?:(?=\\d+\\.\\d)\\d+[.\\d]*|\\d{1,7}(?=(?:\\D|$))))`, "i");
+  const regex = new RegExp(
+    `${engine}\\s*\\/?\\s*((?:(?=\\d+\\.\\d)\\d+[.\\d]*|\\d{1,7}(?=(?:\\D|$))))`,
+    "i"
+  );
   const match = userAgent.match(regex);
 
   if (!match) return "";

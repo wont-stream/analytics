@@ -1,7 +1,7 @@
 import server from "./server.js";
 import country from "./country.js";
 import ref from "./ref.js";
-import DeviceDetector from "./device-detector-js"
+import DeviceDetector from "./device-detector-js";
 
 const DB = require("simple-json-db");
 
@@ -24,7 +24,7 @@ app.post("/e", async (req, server) => {
     req.headers["X-Forwarded-For"] ||
     server.requestIP(req);
 
-  const data = new DeviceDetector().parse(req.headers["user-agent"] || "")
+  const data = new DeviceDetector().parse(req.headers["user-agent"] || "");
 
   if (data.bot !== null) {
     return new Response(
@@ -39,14 +39,14 @@ app.post("/e", async (req, server) => {
 
   const visitorCountry = (await country.getIP(ip)) || "Unknown";
 
-  const visitorReferer = ref.getRef(await req.text() || "") || "Unknown";
+  const visitorReferer = ref.getRef((await req.text()) || "") || "Unknown";
 
   const currentData = db.get("data") || {
     os: {},
     client: {},
     device: {},
     country: {},
-    ref: {}
+    ref: {},
   };
 
   Object.assign(currentData?.os, {
@@ -81,12 +81,12 @@ app.post("/e", async (req, server) => {
   );
 });
 
-app.ws.open("/", (ws) => {
+app.ws.open("/frontend", (ws) => {
   connectedWebSockets.add(ws);
   ws.send(JSON.stringify(db.get("data") || {}));
 });
 
-app.ws.close("/", (ws) => {
+app.ws.close("/frontend", (ws) => {
   connectedWebSockets.delete(ws);
 });
 

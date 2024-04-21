@@ -29,12 +29,12 @@ const getRef = async (referer) => {
 
   for (let cat of Object.keys(database)) {
     for (let comp of Object.keys(database[cat])) {
-        if (database[cat][comp].domains.includes(referer)) {
-            return comp;
-        }
+      if (database[cat][comp].domains.includes(referer)) {
+        return comp;
+      }
     }
-}
-return null; // Return null if no component is found with the specified domain
+  }
+  return null; // Return null if no component is found with the specified domain
 };
 
 export default { saveDB, getRef };

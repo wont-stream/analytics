@@ -15,18 +15,18 @@ interface Options {
 
 export default class MediaPlayerParser {
   private readonly options: Options = {
-    versionTruncation: 1
+    versionTruncation: 1,
   };
 
   constructor(options?: Partial<Options>) {
-    this.options = {...this.options, ...options};
+    this.options = { ...this.options, ...options };
   }
 
   public parse = (userAgent: string): MediaPlayerResult => {
     const result: MediaPlayerResult = {
       type: "",
       name: "",
-      version: ""
+      version: "",
     };
 
     for (const mediaPlayer of mediaPlayers) {
@@ -36,7 +36,10 @@ export default class MediaPlayerParser {
 
       result.type = "media player";
       result.name = variableReplacement(mediaPlayer.name, match);
-      result.version = formatVersion(variableReplacement(mediaPlayer.version, match), this.options.versionTruncation);
+      result.version = formatVersion(
+        variableReplacement(mediaPlayer.version, match),
+        this.options.versionTruncation
+      );
       break;
     }
 

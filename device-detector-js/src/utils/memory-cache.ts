@@ -17,6 +17,6 @@ export const memoryCache = <Value>() => {
 
   return {
     set,
-    get
+    get,
   };
 };

@@ -53,14 +53,16 @@ const tests: any = [
 const versionTruncation = 1;
 
 const deviceDetector = new DeviceDetector({
-  versionTruncation
+  versionTruncation,
 });
 
 describe("Full test", () => {
   for (const unitTest of tests) {
     const brand = unitTest.device.brand || "";
 
-    test(`${unitTest.os.name || ""} ${brand} ${unitTest.client.name || ""}`, () => {
+    test(`${unitTest.os.name || ""} ${brand} ${
+      unitTest.client.name || ""
+    }`, () => {
       const result = deviceDetector.parse(unitTest.user_agent);
 
       const expectedClientType = (unitTest.client.type || "")
@@ -82,39 +84,48 @@ describe("Full test", () => {
         os: {
           name: result?.os?.name || "",
           version: result?.os?.version || "",
-          platform: result?.os?.platform || ""
+          platform: result?.os?.platform || "",
         },
         client: {
           type: result?.client?.type || "",
           name: result?.client?.name || "",
           version: result?.client?.version || "",
-          engine: result?.client?.type === "browser" ? (result?.client as BrowserResult).engine : "",
-          engineVersion: result?.client?.type === "browser" ? (result?.client as BrowserResult).engineVersion : "",
+          engine:
+            result?.client?.type === "browser"
+              ? (result?.client as BrowserResult).engine
+              : "",
+          engineVersion:
+            result?.client?.type === "browser"
+              ? (result?.client as BrowserResult).engineVersion
+              : "",
         },
         device: {
           type: result?.device?.type || "",
           brand: result?.device?.brand || "",
-          model: result?.device?.model || ""
-        }
+          model: result?.device?.model || "",
+        },
       }).toEqual({
         // userAgent: unitTest.user_agent,
         os: {
           name: unitTest.os.name || "",
           version: formatVersion(unitTest.os.version, versionTruncation) || "",
-          platform: unitTest.os.platform || ""
+          platform: unitTest.os.platform || "",
         },
         client: {
           type: expectedClientType,
           name: unitTest.client.name || "",
-          version: formatVersion(unitTest.client.version, versionTruncation) || "",
+          version:
+            formatVersion(unitTest.client.version, versionTruncation) || "",
           engine: unitTest.client.engine || "",
-          engineVersion: formatVersion(unitTest.client.engine_version, versionTruncation) || "",
+          engineVersion:
+            formatVersion(unitTest.client.engine_version, versionTruncation) ||
+            "",
         },
         device: {
           type: expectedDeviceType,
           brand,
-          model: unitTest.device.model || ""
-        }
+          model: unitTest.device.model || "",
+        },
       });
     });
   }

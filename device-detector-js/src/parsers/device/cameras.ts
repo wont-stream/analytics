@@ -8,7 +8,7 @@ export default class CameraParser {
     const result: GenericDeviceResult = {
       type: "",
       brand: "",
-      model: ""
+      model: "",
     };
 
     for (const [brand, camera] of Object.entries(cameras)) {

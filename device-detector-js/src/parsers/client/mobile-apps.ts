@@ -15,18 +15,18 @@ interface Options {
 
 export default class MobileAppParser {
   private readonly options: Options = {
-    versionTruncation: 1
+    versionTruncation: 1,
   };
 
   constructor(options?: Partial<Options>) {
-    this.options = {...this.options, ...options};
+    this.options = { ...this.options, ...options };
   }
 
   public parse = (userAgent: string): MobileAppResult => {
     const result: MobileAppResult = {
       type: "",
       name: "",
-      version: ""
+      version: "",
     };
 
     for (const mobileApp of mobileApps) {
@@ -36,7 +36,10 @@ export default class MobileAppParser {
 
       result.type = "mobile app";
       result.name = variableReplacement(mobileApp.name, match);
-      result.version = formatVersion(variableReplacement(mobileApp.version, match), this.options.versionTruncation);
+      result.version = formatVersion(
+        variableReplacement(mobileApp.version, match),
+        this.options.versionTruncation
+      );
       break;
     }
 

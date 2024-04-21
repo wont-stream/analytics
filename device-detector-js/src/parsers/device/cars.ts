@@ -8,7 +8,7 @@ export default class CarParser {
     const result: GenericDeviceResult = {
       type: "",
       brand: "",
-      model: ""
+      model: "",
     };
 
     for (const [brand, car] of Object.entries(cars)) {

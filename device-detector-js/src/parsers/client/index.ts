@@ -3,9 +3,18 @@ import MobileAppParser, { MobileAppResult } from "./mobile-apps";
 import FeedReaderParser, { FeedReaderResult } from "./feed-readers";
 import LibraryParser, { LibraryResult } from "./libraries";
 import MediaPlayerParser, { MediaPlayerResult } from "./media-players";
-import PersonalInformationManagerParser, { PersonalInformationManagerResult } from "./personal-information-managers";
+import PersonalInformationManagerParser, {
+  PersonalInformationManagerResult,
+} from "./personal-information-managers";
 
-export type ClientResult = BrowserResult | FeedReaderResult | LibraryResult | MediaPlayerResult | MobileAppResult | PersonalInformationManagerResult | null;
+export type ClientResult =
+  | BrowserResult
+  | FeedReaderResult
+  | LibraryResult
+  | MediaPlayerResult
+  | MobileAppResult
+  | PersonalInformationManagerResult
+  | null;
 
 interface Options {
   versionTruncation: 0 | 1 | 2 | 3 | null;
@@ -17,16 +26,16 @@ const clientParsers = [
   MediaPlayerParser,
   PersonalInformationManagerParser,
   BrowserParser,
-  LibraryParser
+  LibraryParser,
 ];
 
 export default class ClientParser {
   private readonly options: Options = {
-    versionTruncation: 1
+    versionTruncation: 1,
   };
 
   constructor(options?: Partial<Options>) {
-    this.options = {...this.options, ...options};
+    this.options = { ...this.options, ...options };
   }
 
   public parse = (userAgent: string): ClientResult => {

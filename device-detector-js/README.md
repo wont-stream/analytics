@@ -37,11 +37,13 @@ npm install device-detector-js
 ### Usage
 
 ##### ES2015 import:
+
 ```javascript
 import DeviceDetector from "device-detector-js";
 ```
 
 ##### TypeScript import:
+
 ```typescript
 import DeviceDetector = require("device-detector-js");
 ```
@@ -52,7 +54,8 @@ import DeviceDetector = require("device-detector-js");
 import DeviceDetector from "device-detector-js";
 
 const deviceDetector = new DeviceDetector();
-const userAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.81 Safari/537.36";
+const userAgent =
+  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.81 Safari/537.36";
 const device = deviceDetector.parse(userAgent);
 
 console.log(device);
@@ -89,7 +92,8 @@ Output:
 import BotDetector from "device-detector-js/dist/parsers/bot";
 
 const botDetector = new BotDetector();
-const userAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A5376e Safari/8536.25 (compatible; Googlebot-Mobile/2.1; +http://www.google.com/bot.html)";
+const userAgent =
+  "Mozilla/5.0 (iPhone; CPU iPhone OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A5376e Safari/8536.25 (compatible; Googlebot-Mobile/2.1; +http://www.google.com/bot.html)";
 const bot = botDetector.parse(userAgent);
 
 if (bot) {
@@ -118,25 +122,28 @@ Output:
 - `options` <[Object]> Options object which might have the following properties:
   - `skipBotDetection` <[boolean]> If true, bot detection will completely be skipped (bots will be detected as regular devices). Defaults to `false`.
   - `versionTruncation` <[0 | 1 | 2 | 3 | null]> Passing `null` disables version truncation, so full versions will be returned. Defaults to `1`, only minor versions will be returned (e.g. X.Y).
-  
+
 ## TypeScript
 
 Type definitions are included in this library and exposed via:
 
 ```typescript
-import { DeviceDetectorResult, DeviceDetectorOptions } from "device-detector-js";
-``` 
+import {
+  DeviceDetectorResult,
+  DeviceDetectorOptions,
+} from "device-detector-js";
+```
 
 ## ⚠️ Browser Environment
 
 Even though this library can run in the browser, **it is strongly advised against doing so**, unless you are not concerned with performance. Keep in mind that using this library in browser-side code means sending around 432 KB of Regex rules and 144 KB of javascript (uncompressed and unminified), which may result in a poor user experience for people with a slow Internet connection.
 
 **You may experience inconsistencies when running this library in a browser environment, as some browsers like Safari do not yet support lookbehind syntax.**
-  
+
 ## What device-detector-js is able to detect
 
 The lists below are auto generated and updated from time to time. Some of them might not be complete.
-*Last update: 2021/01/08*
+_Last update: 2021/01/08_
 
 ### List of detected operating systems:
 
@@ -160,7 +167,7 @@ Audacious, Banshee, Boxee, Clementine, Deezer, FlyCast, Foobar2000, Google Podca
 
 ### List of detected mobile apps:
 
-AndroidDownloadManager, AntennaPod, Apple News, Baidu Box App, BeyondPod, BingWebApp, bPod, CastBox, Castro, Castro 2, CrosswalkApp, DingTalk, DoggCatcher, douban App, Facebook, Facebook Messenger, FeedR, Flipboard App, Google Go, Google Play Newsstand, Google Plus, Google Search App, HeyTapBrowser, iCatcher, Instacast, Instagram App, Instapaper, Keeper Password Manager, Kik, Line, LinkedIn, NewsArticle App, Overcast, Pinterest, Player FM, Pocket Casts, Podcast & Radio Addict, Podcast Republic, Podcasts, Podcat, Podcatcher Deluxe, Podkicker, Roblox, RSSRadio, Sina Weibo, Siri, Skyeng Teachers, Snapchat, SogouSearch App, tieba, TopBuzz, Twitter, U-Cursos, UnityPlayer, Viber, WeChat, WeChat Share Extension, WhatsApp, Yahoo! Japan, Yelp Mobile, YouTube and *mobile apps using [AFNetworking](https://github.com/AFNetworking/AFNetworking)*
+AndroidDownloadManager, AntennaPod, Apple News, Baidu Box App, BeyondPod, BingWebApp, bPod, CastBox, Castro, Castro 2, CrosswalkApp, DingTalk, DoggCatcher, douban App, Facebook, Facebook Messenger, FeedR, Flipboard App, Google Go, Google Play Newsstand, Google Plus, Google Search App, HeyTapBrowser, iCatcher, Instacast, Instagram App, Instapaper, Keeper Password Manager, Kik, Line, LinkedIn, NewsArticle App, Overcast, Pinterest, Player FM, Pocket Casts, Podcast & Radio Addict, Podcast Republic, Podcasts, Podcat, Podcatcher Deluxe, Podkicker, Roblox, RSSRadio, Sina Weibo, Siri, Skyeng Teachers, Snapchat, SogouSearch App, tieba, TopBuzz, Twitter, U-Cursos, UnityPlayer, Viber, WeChat, WeChat Share Extension, WhatsApp, Yahoo! Japan, Yelp Mobile, YouTube and _mobile apps using [AFNetworking](https://github.com/AFNetworking/AFNetworking)_
 
 ### List of detected PIMs (personal information manager):
 
@@ -180,10 +187,10 @@ Akregator, Apple PubSub, BashPodder, Breaker, Downcast, FeedDemon, Feeddler RSS 
 
 ## Built with
 
-* [Matomo device detector](https://github.com/matomo-org/device-detector) - A powerful device detection library.
-* [node.js](https://nodejs.org/en/) - Cross-platform JavaScript run-time environment for executing JavaScript code server-side. 
-* [TypeScript](https://www.typescriptlang.org/) - Typed superset of JavaScript that compiles to plain JavaScript.
-* [Jest](https://facebook.github.io/jest/) - Delightful JavaScript Testing.
+- [Matomo device detector](https://github.com/matomo-org/device-detector) - A powerful device detection library.
+- [node.js](https://nodejs.org/en/) - Cross-platform JavaScript run-time environment for executing JavaScript code server-side.
+- [TypeScript](https://www.typescriptlang.org/) - Typed superset of JavaScript that compiles to plain JavaScript.
+- [Jest](https://facebook.github.io/jest/) - Delightful JavaScript Testing.
 
 ## Contributing
 
@@ -195,7 +202,7 @@ Execute `yarn test` and update the [tests](https://github.com/etienne-martin/dev
 
 ### How to update to a newer version of matomo?
 
-This library needs to be updated when matomo releases a new version of their library. Here's how to proceed: 
+This library needs to be updated when matomo releases a new version of their library. Here's how to proceed:
 
 1. Pull the master branch from this repo
 2. Update the `https://github.com/matomo-org/device-detector#{version-number}` to the latest version of matomo device detector in the package.json
@@ -205,14 +212,14 @@ This library needs to be updated when matomo releases a new version of their lib
 
 ### Why do tests fail after downloading new fixtures?
 
-When matomo releases a new version, they usually add support for new brands. [Those brands](https://github.com/matomo-org/device-detector/blob/1060530615c54796cc2045a030c7c605574060d2/Parser/Device/DeviceParserAbstract.php#L65) needs to be copied over to [this file](https://github.com/etienne-martin/device-detector-js/blob/master/src/tests/fixtures/brands.json).  
+When matomo releases a new version, they usually add support for new brands. [Those brands](https://github.com/matomo-org/device-detector/blob/1060530615c54796cc2045a030c7c605574060d2/Parser/Device/DeviceParserAbstract.php#L65) needs to be copied over to [this file](https://github.com/etienne-martin/device-detector-js/blob/master/src/tests/fixtures/brands.json).
 
 ## Authors
 
-* **Etienne Martin** - *Initial work* - [etiennemartin.ca](http://etiennemartin.ca/)
-* **Alex Beauchemin** - *Contributor* - [linkedin.com/in/alexbeauchemin](https://www.linkedin.com/in/alexbeauchemin/)
-* **Ayan Dey** - *Contributor* - [linkedin.com/in/dey-ayan](https://www.linkedin.com/in/dey-ayan)
-* **Julien Maitrehenry** - *Contributor* - [linkedin.com/in/jmaitrehenry](https://www.linkedin.com/in/jmaitrehenry)
+- **Etienne Martin** - _Initial work_ - [etiennemartin.ca](http://etiennemartin.ca/)
+- **Alex Beauchemin** - _Contributor_ - [linkedin.com/in/alexbeauchemin](https://www.linkedin.com/in/alexbeauchemin/)
+- **Ayan Dey** - _Contributor_ - [linkedin.com/in/dey-ayan](https://www.linkedin.com/in/dey-ayan)
+- **Julien Maitrehenry** - _Contributor_ - [linkedin.com/in/jmaitrehenry](https://www.linkedin.com/in/jmaitrehenry)
 
 ## License
 

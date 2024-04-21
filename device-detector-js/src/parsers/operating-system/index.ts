@@ -2,7 +2,7 @@ import operatingSystems from "../../fixtures/regexes/oss.json";
 import { formatVersion } from "../../utils/version";
 import { variableReplacement } from "../../utils/variable-replacement";
 import { userAgentParser } from "../../utils/user-agent";
-import operatingSystem from "./fixtures/operating-system.json"
+import operatingSystem from "./fixtures/operating-system.json";
 
 export interface OperatingSystemResult {
   name: string;
@@ -16,9 +16,18 @@ interface Options {
   versionTruncation: 0 | 1 | 2 | 3 | null;
 }
 
-const desktopOsArray = ["AmigaOS","IBM","GNU/Linux","Mac","Unix","Windows","BeOS","Chrome OS"];
-const shortOsNames = operatingSystem.operatingSystem
-const osFamilies = operatingSystem.osFamilies
+const desktopOsArray = [
+  "AmigaOS",
+  "IBM",
+  "GNU/Linux",
+  "Mac",
+  "Unix",
+  "Windows",
+  "BeOS",
+  "Chrome OS",
+];
+const shortOsNames = operatingSystem.operatingSystem;
+const osFamilies = operatingSystem.osFamilies;
 
 export default class OperatingSystemParser {
   public static getDesktopOsArray = (): string[] => desktopOsArray;
@@ -44,18 +53,18 @@ export default class OperatingSystemParser {
   };
 
   private readonly options: Options = {
-    versionTruncation: 1
+    versionTruncation: 1,
   };
 
   constructor(options?: Partial<Options>) {
-    this.options = {...this.options, ...options};
+    this.options = { ...this.options, ...options };
   }
 
   public parse = (userAgent: string): Result => {
     const result: OperatingSystemResult = {
       name: "",
       version: "",
-      platform: this.parsePlatform(userAgent)
+      platform: this.parsePlatform(userAgent),
     };
 
     for (const operatingSystem of operatingSystems) {
@@ -64,7 +73,10 @@ export default class OperatingSystemParser {
       if (!match) continue;
 
       result.name = variableReplacement(operatingSystem.name, match);
-      result.version = formatVersion(variableReplacement(operatingSystem.version, match), this.options.versionTruncation);
+      result.version = formatVersion(
+        variableReplacement(operatingSystem.version, match),
+        this.options.versionTruncation
+      );
 
       if (result.name === "lubuntu") {
         result.name = "Lubuntu";

@@ -16,11 +16,11 @@ interface Options {
 
 export default class LibraryParser {
   private readonly options: Options = {
-    versionTruncation: 1
+    versionTruncation: 1,
   };
 
   constructor(options?: Partial<Options>) {
-    this.options = {...this.options, ...options};
+    this.options = { ...this.options, ...options };
   }
 
   public parse = (userAgent: string): LibraryResult => {
@@ -28,7 +28,7 @@ export default class LibraryParser {
       type: "",
       name: "",
       version: "",
-      url: ""
+      url: "",
     };
 
     for (const library of libraries) {
@@ -38,7 +38,10 @@ export default class LibraryParser {
 
       result.type = "library";
       result.name = variableReplacement(library.name, match);
-      result.version = formatVersion(variableReplacement(library.version, match), this.options.versionTruncation);
+      result.version = formatVersion(
+        variableReplacement(library.version, match),
+        this.options.versionTruncation
+      );
       result.url = library.url || "";
       break;
     }

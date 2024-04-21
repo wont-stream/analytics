@@ -13,7 +13,7 @@ export type DeviceType =
   | "wearable"
   | "smart speaker"
   | "feature phone"
-  | "peripheral"
+  | "peripheral";
 
 export interface GenericDeviceResult {
   type: DeviceType;

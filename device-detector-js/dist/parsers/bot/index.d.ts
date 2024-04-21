@@ -1,8 +1,8 @@
 import { BotResult } from "./typing";
 declare namespace BotParser {
-    type DeviceDetectorBotResult = BotResult | null;
+  type DeviceDetectorBotResult = BotResult | null;
 }
 declare class BotParser {
-    parse: (userAgent: string) => BotParser.DeviceDetectorBotResult;
+  parse: (userAgent: string) => BotParser.DeviceDetectorBotResult;
 }
 export default BotParser;

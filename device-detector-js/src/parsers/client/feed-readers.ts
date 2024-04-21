@@ -16,11 +16,11 @@ interface Options {
 
 export default class FeedReaderParser {
   private readonly options: Options = {
-    versionTruncation: 1
+    versionTruncation: 1,
   };
 
   constructor(options?: Partial<Options>) {
-    this.options = {...this.options, ...options};
+    this.options = { ...this.options, ...options };
   }
 
   public parse = (userAgent: string): FeedReaderResult => {
@@ -28,7 +28,7 @@ export default class FeedReaderParser {
       type: "",
       name: "",
       version: "",
-      url: ""
+      url: "",
     };
 
     for (const feedReader of feedReaders) {
@@ -38,7 +38,10 @@ export default class FeedReaderParser {
 
       result.type = "feed reader";
       result.name = variableReplacement(feedReader.name, match);
-      result.version = formatVersion(variableReplacement(feedReader.version, match), this.options.versionTruncation);
+      result.version = formatVersion(
+        variableReplacement(feedReader.version, match),
+        this.options.versionTruncation
+      );
       result.url = feedReader.url;
       break;
     }

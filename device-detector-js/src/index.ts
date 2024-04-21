@@ -1,6 +1,8 @@
 import ClientParser, { ClientResult } from "./parsers/client";
 import DeviceParser, { DeviceResult } from "./parsers/device";
-import OperatingSystemParser, { Result as OperatingSystemResult } from "./parsers/operating-system";
+import OperatingSystemParser, {
+  Result as OperatingSystemResult,
+} from "./parsers/operating-system";
 import VendorFragmentParser from "./parsers/vendor-fragment";
 import BrowserParser from "./parsers/client/browser";
 import BotParser from "./parsers/bot";
@@ -32,11 +34,11 @@ class DeviceDetector {
   // Default options
   private readonly options: DeviceDetector.DeviceDetectorOptions = {
     skipBotDetection: false,
-    versionTruncation: 1
+    versionTruncation: 1,
   };
 
   constructor(options?: Partial<DeviceDetector.DeviceDetectorOptions>) {
-    this.options = {...this.options, ...options};
+    this.options = { ...this.options, ...options };
     this.clientParser = new ClientParser(this.options);
     this.deviceParser = new DeviceParser();
     this.operatingSystemParser = new OperatingSystemParser(this.options);
@@ -49,7 +51,9 @@ class DeviceDetector {
       client: this.clientParser.parse(userAgent),
       os: this.operatingSystemParser.parse(userAgent),
       device: this.deviceParser.parse(userAgent),
-      bot: this.options.skipBotDetection ? null : this.botParser.parse(userAgent)
+      bot: this.options.skipBotDetection
+        ? null
+        : this.botParser.parse(userAgent),
     };
 
     const osName = result.os?.name;
@@ -70,7 +74,10 @@ class DeviceDetector {
     /**
      * Assume all devices running iOS / Mac OS are from Apple
      */
-    if (!result.device?.brand && ["Apple TV", "watchOS", "iOS", "Mac"].includes(osName || "")) {
+    if (
+      !result.device?.brand &&
+      ["Apple TV", "watchOS", "iOS", "Mac"].includes(osName || "")
+    ) {
       if (!result.device) {
         result.device = this.createDeviceObject();
       }
@@ -85,7 +92,11 @@ class DeviceDetector {
      * Note: We do not check for browser (family) here, as there might be mobile apps using Chrome, that won't have
      *       a detected browser, but can still be detected. So we check the useragent for Chrome instead.
      */
-    if (!result.device?.type && osFamily === "Android" && userAgentParser("Chrome/[\\.0-9]*", userAgent)) {
+    if (
+      !result.device?.type &&
+      osFamily === "Android" &&
+      userAgentParser("Chrome/[\\.0-9]*", userAgent)
+    ) {
       if (userAgentParser("Chrome/[.0-9]* (?:Mobile|eliboM)", userAgent)) {
         if (!result.device) {
           result.device = this.createDeviceObject();
@@ -104,7 +115,10 @@ class DeviceDetector {
     /**
      * Some user agents simply contain the fragment 'Android; Tablet;' or 'Opera Tablet', so we assume those devices are tablets
      */
-    if (!result.device?.type && this.hasAndroidTabletFragment(userAgent) || userAgentParser("Opera Tablet", userAgent)) {
+    if (
+      (!result.device?.type && this.hasAndroidTabletFragment(userAgent)) ||
+      userAgentParser("Opera Tablet", userAgent)
+    ) {
       if (!result.device) {
         result.device = this.createDeviceObject();
       }
@@ -138,7 +152,10 @@ class DeviceDetector {
         }
 
         result.device.type = "smartphone";
-      } else if (versionCompare(osVersion, "3.0") >= 0 && versionCompare(osVersion, "4.0") === -1) {
+      } else if (
+        versionCompare(osVersion, "3.0") >= 0 &&
+        versionCompare(osVersion, "4.0") === -1
+      ) {
         if (!result.device) {
           result.device = this.createDeviceObject();
         }
@@ -150,7 +167,10 @@ class DeviceDetector {
     /**
      * All detected feature phones running android are more likely smartphones
      */
-    if ((result.device?.type as string) === "feature phone" && osFamily === "Android") {
+    if (
+      (result.device?.type as string) === "feature phone" &&
+      osFamily === "Android"
+    ) {
       result.device!.type = "smartphone";
     }
 
@@ -164,15 +184,10 @@ class DeviceDetector {
      * all Windows 8 touch devices are tablets.
      */
     if (
-      !result.device?.type
-      && this.isToucheEnabled(userAgent)
-      && (
-        osName === "Windows RT"
-        || (
-          osName === "Windows"
-          && versionCompare(osVersion, "8.0") >= 0
-        )
-      )
+      !result.device?.type &&
+      this.isToucheEnabled(userAgent) &&
+      (osName === "Windows RT" ||
+        (osName === "Windows" && versionCompare(osVersion, "8.0") >= 0))
     ) {
       if (!result.device) {
         result.device = this.createDeviceObject();
@@ -185,7 +200,7 @@ class DeviceDetector {
      * All devices running Opera TV Store are assumed to be televisions
      */
     if (userAgentParser("Opera TV Store", userAgent)) {
-      if (!result.device ) {
+      if (!result.device) {
         result.device = this.createDeviceObject();
       }
 
@@ -196,7 +211,7 @@ class DeviceDetector {
      * All devices running Tizen TV or SmartTV are assumed to be televisions
      */
     if (userAgentParser("SmartTV|Tizen.+ TV .+$", userAgent)) {
-      if (!result.device ) {
+      if (!result.device) {
         result.device = this.createDeviceObject();
       }
 
@@ -206,7 +221,10 @@ class DeviceDetector {
     /**
      * Devices running Kylo or Espital TV Browsers are assumed to be televisions
      */
-    if (!result.device?.type && ["Kylo", "Espial TV Browser"].includes(result.client?.name || "")) {
+    if (
+      !result.device?.type &&
+      ["Kylo", "Espial TV Browser"].includes(result.client?.name || "")
+    ) {
       if (!result.device) {
         result.device = this.createDeviceObject();
       }
@@ -217,9 +235,10 @@ class DeviceDetector {
     /**
      * Set device type to desktop if string ua contains desktop
      */
-    const hasDesktop = "desktop" !== result.device?.type
-      && null !== userAgentParser("Desktop", userAgent)
-      && this.hasDesktopFragment(userAgent);
+    const hasDesktop =
+      "desktop" !== result.device?.type &&
+      null !== userAgentParser("Desktop", userAgent) &&
+      this.hasDesktopFragment(userAgent);
     if (hasDesktop) {
       if (!result.device) {
         result.device = this.createDeviceObject();
@@ -241,18 +260,21 @@ class DeviceDetector {
   };
 
   private hasAndroidMobileFragment = (userAgent: string) => {
-    return userAgentParser("Android( [\.0-9]+)?; Mobile;", userAgent);
+    return userAgentParser("Android( [.0-9]+)?; Mobile;", userAgent);
   };
 
   private hasAndroidTabletFragment = (userAgent: string) => {
-    return userAgentParser("Android( [\.0-9]+)?; Tablet;", userAgent);
+    return userAgentParser("Android( [.0-9]+)?; Tablet;", userAgent);
   };
 
   private hasDesktopFragment = (userAgent: string) => {
     return userAgentParser("Desktop (x(?:32|64)|WOW64);", userAgent);
   };
 
-  private isDesktop = (result: DeviceDetector.DeviceDetectorResult, osFamily: string): boolean => {
+  private isDesktop = (
+    result: DeviceDetector.DeviceDetectorResult,
+    osFamily: string
+  ): boolean => {
     if (!result.os) {
       return false;
     }
@@ -265,10 +287,15 @@ class DeviceDetector {
     return OperatingSystemParser.getDesktopOsArray().includes(osFamily);
   };
 
-  private usesMobileBrowser = (client: DeviceDetector.DeviceDetectorResult["client"]) => {
+  private usesMobileBrowser = (
+    client: DeviceDetector.DeviceDetectorResult["client"]
+  ) => {
     if (!client) return false;
 
-    return client?.type === "browser" && BrowserParser.isMobileOnlyBrowser(client?.name);
+    return (
+      client?.type === "browser" &&
+      BrowserParser.isMobileOnlyBrowser(client?.name)
+    );
   };
 
   private isToucheEnabled = (userAgent: string) => {
@@ -278,7 +305,7 @@ class DeviceDetector {
   private createDeviceObject = (): GenericDeviceResult => ({
     type: "",
     brand: "",
-    model: ""
+    model: "",
   });
 }
 

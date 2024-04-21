@@ -5,7 +5,9 @@ import { userAgentParser } from "../utils/user-agent";
 describe("Utility functions", () => {
   test(`variable replacement`, () => {
     expect(variableReplacement("$1", ["test"])).toEqual("test");
-    expect(variableReplacement("$2 $1", ["last", "first"])).toEqual("first last");
+    expect(variableReplacement("$2 $1", ["last", "first"])).toEqual(
+      "first last"
+    );
     expect(variableReplacement("abcd ($1)", ["1.0"])).toEqual("abcd (1.0)");
     // Handle null and undefined template
     expect(variableReplacement(null, ["test"])).toEqual("");

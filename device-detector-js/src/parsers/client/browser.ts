@@ -32,15 +32,17 @@ export default class BrowserParser {
   };
 
   public static isMobileOnlyBrowser = (browserName: string) => {
-    return mobileOnlyBrowsers.includes(BrowserParser.getBrowserShortName(browserName));
+    return mobileOnlyBrowsers.includes(
+      BrowserParser.getBrowserShortName(browserName)
+    );
   };
 
   private readonly options: Options = {
-    versionTruncation: 1
+    versionTruncation: 1,
   };
 
   constructor(options?: Partial<Options>) {
-    this.options = {...this.options, ...options};
+    this.options = { ...this.options, ...options };
   }
 
   public parse = (userAgent: string): BrowserResult => {
@@ -49,7 +51,7 @@ export default class BrowserParser {
       name: "",
       version: "",
       engine: "",
-      engineVersion: ""
+      engineVersion: "",
     };
 
     for (const browser of browsers) {
@@ -59,17 +61,23 @@ export default class BrowserParser {
 
       const vrpVersion = variableReplacement(browser.version, match);
       const version = formatVersion(vrpVersion, this.options.versionTruncation);
-      const shortVersion = version && parseFloat(formatVersion(vrpVersion, 1)) || "";
+      const shortVersion =
+        (version && parseFloat(formatVersion(vrpVersion, 1))) || "";
 
       if (browser.engine) {
         result.engine = browser.engine.default;
 
         if (browser.engine && browser.engine.versions && shortVersion) {
-          const sortedEngineVersions = Object.entries(browser.engine.versions).sort((a, b) => {
+          const sortedEngineVersions = Object.entries(
+            browser.engine.versions
+          ).sort((a, b) => {
             return parseFloat(a[0]) > parseFloat(b[0]) ? 1 : -1;
           });
 
-          for (const [versionThreshold, engineByVersion] of sortedEngineVersions) {
+          for (const [
+            versionThreshold,
+            engineByVersion,
+          ] of sortedEngineVersions) {
             if (parseFloat(versionThreshold) <= shortVersion) {
               result.engine = engineByVersion || "";
             }
@@ -85,7 +93,6 @@ export default class BrowserParser {
 
     if (!result.engine) {
       for (const browserEngine of browserEngines) {
-
         let match = null;
         try {
           match = RegExp(browserEngine.regex, "i").exec(userAgent);
@@ -100,7 +107,10 @@ export default class BrowserParser {
       }
     }
 
-    result.engineVersion = formatVersion(parseBrowserEngineVersion(userAgent, result.engine), this.options.versionTruncation);
+    result.engineVersion = formatVersion(
+      parseBrowserEngineVersion(userAgent, result.engine),
+      this.options.versionTruncation
+    );
 
     return result;
   };

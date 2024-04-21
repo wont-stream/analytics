@@ -15,28 +15,34 @@ interface Options {
 
 export default class PersonalInformationManagerParser {
   private readonly options: Options = {
-    versionTruncation: 1
+    versionTruncation: 1,
   };
 
   constructor(options?: Partial<Options>) {
-    this.options = {...this.options, ...options};
+    this.options = { ...this.options, ...options };
   }
 
   public parse = (userAgent: string): PersonalInformationManagerResult => {
     const result: PersonalInformationManagerResult = {
       type: "",
       name: "",
-      version: ""
+      version: "",
     };
 
     for (const personalInformationManager of personalInformationManagers) {
-      const match = userAgentParser(personalInformationManager.regex, userAgent);
+      const match = userAgentParser(
+        personalInformationManager.regex,
+        userAgent
+      );
 
       if (!match) continue;
 
       result.type = "personal information manager";
       result.name = variableReplacement(personalInformationManager.name, match);
-      result.version = formatVersion(variableReplacement(personalInformationManager.version, match), this.options.versionTruncation);
+      result.version = formatVersion(
+        variableReplacement(personalInformationManager.version, match),
+        this.options.versionTruncation
+      );
       break;
     }
 

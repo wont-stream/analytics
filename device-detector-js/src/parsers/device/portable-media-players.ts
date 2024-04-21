@@ -8,10 +8,12 @@ export default class PortableMediaPlayersParser {
     const result: GenericDeviceResult = {
       type: "",
       brand: "",
-      model: ""
+      model: "",
     };
 
-    for (const [brand, portableMediaPlayer] of Object.entries(portableMediaPlayers)) {
+    for (const [brand, portableMediaPlayer] of Object.entries(
+      portableMediaPlayers
+    )) {
       const match = userAgentParser(portableMediaPlayer.regex, userAgent);
 
       if (!match) continue;
@@ -20,8 +22,14 @@ export default class PortableMediaPlayersParser {
       result.brand = brand;
 
       if ("model" in portableMediaPlayer && portableMediaPlayer.model) {
-        result.model = variableReplacement(portableMediaPlayer.model, match).trim();
-      } else if ("models" in portableMediaPlayer && portableMediaPlayer.models) {
+        result.model = variableReplacement(
+          portableMediaPlayer.model,
+          match
+        ).trim();
+      } else if (
+        "models" in portableMediaPlayer &&
+        portableMediaPlayer.models
+      ) {
         for (const model of portableMediaPlayer.models) {
           const modelMatch = userAgentParser(model.regex, userAgent);
 

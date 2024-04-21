@@ -16,7 +16,7 @@ const deviceParsers = [
   TelevisionParser,
   PortableMediaPlayerParser,
   MobileParser,
-  NotebookParser
+  NotebookParser,
 ];
 
 export default class ClientParser {

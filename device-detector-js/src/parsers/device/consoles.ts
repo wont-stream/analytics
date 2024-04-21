@@ -8,7 +8,7 @@ export default class ConsoleParser {
     const result: GenericDeviceResult = {
       type: "",
       brand: "",
-      model: ""
+      model: "",
     };
 
     for (const [brand, gameConsole] of Object.entries(consoles)) {

@@ -9,7 +9,9 @@ import tvTests from "../fixtures/Tests/Parser/Device/fixtures/tv.json";
 
 const deviceDetector = new DeviceDetector();
 
-const deviceTester = (tests: typeof cameraTests | typeof carTests | typeof consoleTests) => {
+const deviceTester = (
+  tests: typeof cameraTests | typeof carTests | typeof consoleTests
+) => {
   for (const unitTest of tests) {
     const brand = unitTest.device.brand;
 
@@ -17,17 +19,17 @@ const deviceTester = (tests: typeof cameraTests | typeof carTests | typeof conso
       const result = deviceDetector.parse(unitTest.user_agent).device;
 
       unitTest.device.type = unitTest.device.type
-      .replace("car browser", "car")
-      .replace("tv", "television");
+        .replace("car browser", "car")
+        .replace("tv", "television");
 
       expect({
         type: result?.type || "",
         brand: result?.brand || "",
-        model: result?.model || ""
+        model: result?.model || "",
       }).toEqual({
         type: unitTest.device.type || "",
         brand: brand || "",
-        model: unitTest.device.model || ""
+        model: unitTest.device.model || "",
       });
     });
   }

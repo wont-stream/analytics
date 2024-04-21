@@ -19,8 +19,8 @@ class BotParser {
         url: bot.url || "",
         producer: {
           name: bot?.producer?.name || "",
-          url: bot?.producer?.url || ""
-        }
+          url: bot?.producer?.url || "",
+        },
       };
     }
 
