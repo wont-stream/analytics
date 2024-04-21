@@ -1,8 +1,8 @@
 import server from "./server.js";
 import country from "./country.js";
+import ref from "./ref.js";
+import DeviceDetector from "./device-detector-js"
 
-const DeviceDetector = require("node-device-detector");
-const ClientHints = require("node-device-detector/client-hints");
 const DB = require("simple-json-db");
 
 const app = server();
@@ -23,31 +23,30 @@ app.post("/e", async (req, server) => {
     req.headers["CF-Connecting-IP"] ||
     req.headers["X-Forwarded-For"] ||
     server.requestIP(req);
-  const { m, h } = JSON.parse(await req.text());
+
+  const data = new DeviceDetector().parse(req.headers["user-agent"] || "")
+
+  if (data.bot !== null) {
+    return new Response(
+      { status: 304 },
+      {
+        headers: {
+          "content-type": "application/json",
+        },
+      }
+    );
+  }
 
   const visitorCountry = (await country.getIP(ip)) || "Unknown";
 
-  const meta = {
-    width: m.w || null,
-    height: m.h || null,
-    ratio: m.r || null,
-    ram: m.a || null,
-    gpu: m.g || null,
-    colorDepth: m.c || null,
-    gamut: m.m || null,
-    cores: m.e || null,
-  };
-
-  const data = await new DeviceDetector().detectAsync(
-    req.headers["user-agent"] || "",
-    new ClientHints().parse(Object.assign(req?.headers || {}, h || {}), meta)
-  );
+  const visitorReferer = ref.getRef(await req.text() || "") || "Unknown";
 
   const currentData = db.get("data") || {
     os: {},
     client: {},
     device: {},
     country: {},
+    ref: {}
   };
 
   Object.assign(currentData?.os, {
@@ -62,6 +61,9 @@ app.post("/e", async (req, server) => {
   Object.assign(currentData?.country, {
     [visitorCountry]: currentData?.country[visitorCountry] + 1 || 1,
   });
+  Object.assign(currentData?.ref, {
+    [visitorReferer]: currentData?.ref[visitorReferer] + 1 || 1,
+  });
 
   connectedWebSockets.forEach((ws) => {
     ws.send(JSON.stringify(currentData));
@@ -70,7 +72,7 @@ app.post("/e", async (req, server) => {
   db.set("data", currentData);
 
   return new Response(
-    { status: 200 },
+    { status: 202 },
     {
       headers: {
         "content-type": "application/json",
@@ -113,3 +115,7 @@ function runOnceADay(callback, hour, minute, second) {
 runOnceADay(country.saveDB, 1, 0, 0);
 
 country.saveDB();
+
+runOnceADay(ref.saveDB, 1, 0, 0);
+
+ref.saveDB();
