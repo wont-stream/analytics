@@ -7,7 +7,7 @@ const DB = require("simple-json-db");
 
 const app = server();
 const db = new DB("./db.json");
-const deviceDetector = new DeviceDetector()
+const deviceDetector = new DeviceDetector();
 
 let connectedWebSockets = new Set();
 
@@ -25,7 +25,8 @@ app.post("/e", async (req, server) => {
     req.headers["X-Forwarded-For"] ||
     server.requestIP(req);
 
-  const data = deviceDetector.parse(req.headers["user-agent"] || "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36");
+  const data = deviceDetector.parse(req.headers.get("user-agent"));
+  
   if (data.bot !== null) {
     return new Response(
       { status: 304 },
@@ -37,9 +38,9 @@ app.post("/e", async (req, server) => {
     );
   }
 
-  const visitorCountry = await country.getIP(ip) || "Unknown";
+  const visitorCountry = (await country.getIP(ip)) || "Unknown";
 
-  const visitorReferer = await ref.getRef(await req.text()) || "Unknown";
+  const visitorReferer = (await ref.getRef(await req.text())) || "Unknown";
 
   const currentData = db.get("data") || {
     os: {},
