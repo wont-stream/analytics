@@ -39,7 +39,7 @@ app.post("/e", async (req, server) => {
 
   const visitorCountry = (await country.getIP(ip)) || "Unknown";
 
-  const visitorReferer = ref.getRef((await req.text()) || "") || "Unknown";
+  const visitorReferer = ref.getRef(await req.text()) || "Unknown";
 
   const currentData = db.get("data") || {
     os: {},
@@ -81,12 +81,12 @@ app.post("/e", async (req, server) => {
   );
 });
 
-app.ws.open("/frontend", (ws) => {
+app.ws.open("/", (ws) => {
   connectedWebSockets.add(ws);
   ws.send(JSON.stringify(db.get("data") || {}));
 });
 
-app.ws.close("/frontend", (ws) => {
+app.ws.close("/", (ws) => {
   connectedWebSockets.delete(ws);
 });
 
