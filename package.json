@@ -7,7 +7,6 @@
     "build": "echo \"No need to build 😎\""
   },
   "dependencies": {
-    "node-device-detector": "^2.1.0",
     "simple-json-db": "^2.0.0"
   }
 }
